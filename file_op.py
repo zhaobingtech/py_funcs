@@ -17,7 +17,6 @@ def list_paths(folder_path , suffix):
     # find()   
     # #合并文件夹与文件名
     # for filepath in filepaths:
-    # # pathlist = path + '\\' + filepath
     
     # print(pathlist)
     pass
@@ -40,3 +39,9 @@ def get_filenames(folder_path,filetype):  # 输入路径、文件类型例如'.c
         path_file_name.append(pt_fn)
         
     return size, path_file_name, filename            # 输出由有后缀的文件名组成的列表
+
+
+#%% main
+folder="D:"
+num,path,files=get_filenames(folder,'.csv')
+print(files)
