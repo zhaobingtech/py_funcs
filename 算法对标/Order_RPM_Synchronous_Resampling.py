@@ -218,14 +218,15 @@ def cut_to_sigBlks(sigData,blkSize,Overlap):
     stepSize = int( np.floor(blkSize*(1-Overlap)) )
     frameNumSize = int( sigLen//stepSize )  # 获得一共有多少个 片段
     
-    # 1.1 method 1 获得idxArray, [向量化方法]
+    
+    # 2.1 method 1 获得idxArray, [向量化方法]
     
     # 生成 引索数组， 大小为 row nums = frameNumSize, col nums = blocksize 
     startIdxArry = np.arange(0,stepSize*frameNumSize,stepSize)  # 生成开始引索序列，间隔为 stepSize ，考虑上 overlap 
     idxArray = np.tile(np.r_[0:blkSize],(frameNumSize,1)) + startIdxArry[:,np.newaxis] # 生成开始引索序列
     
     
-    ## 1.2 method 2 获得idxArray ，比较方便思维理解
+    ## 2.2 method 2 获得idxArray ，比较方便思维理解
     
     # frameNumSize = int( sigLen//stepSize )      # 获得一共有多少个 片段
     # startIdxArry = np.arange(0,frameNumSize*stepSize,stepSize)
@@ -243,11 +244,9 @@ def cut_to_sigBlks(sigData,blkSize,Overlap):
     #     if j <= sigLen:
     #         idxArray[k,:]=np.arange(i,j)
     #         k = k+1
-            
-            
-
     
-    # 通过idxArray获得数组
+    
+    # 3 通过idxArray获得数组
     sigBlks = sigData[idxArray]
     lenSigBlks,_=sigBlks.shape
 
