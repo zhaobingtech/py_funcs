@@ -223,7 +223,7 @@ def cut_to_sigBlks(sigData,blkSize,Overlap):
     
     # 生成 引索数组， 大小为 row nums = frameNumSize, col nums = blocksize 
     startIdxArry = np.arange(0,stepSize*frameNumSize,stepSize)  # 生成开始引索序列，间隔为 stepSize ，考虑上 overlap 
-    idxArray = np.tile(np.r_[0:blkSize],(frameNumSize,1)) + startIdxArry[:,np.newaxis] # 生成开始引索序列
+    idxArray = np.tile(np.r_[0:blkSize],(frameNumSize,1)) + startIdxArry[:,np.newaxis] # 生成信号分块的引索数组，按行分块
     
     
     ## 2.2 method 2 获得idxArray ，比较方便思维理解
