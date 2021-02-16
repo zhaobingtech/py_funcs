@@ -213,25 +213,42 @@ def cut_to_sigBlks(sigData,blkSize,Overlap):
         return print('overlap need less than 1')
         Overlap = Overlap/100
         
-    # 1.获取其实idx的step 
+    # 1.获取其实idx的step ，由于overlap 存在 ，stepSize 小于等于blkSize
     sigLen = np.size(sigData)
     stepSize = int( np.floor(blkSize*(1-Overlap)) )
-    startIdxArry = np.arange(0,sigLen,stepSize)
-    endIdxArry = startIdxArry + blkSize
     
-    # 获取idxArray 数组
-    idxArray = np.zeros((np.size(startIdxArry),blkSize),dtype=np.int32)
-    if endIdxArry[-1] >= sigLen:
-        idxArray = np.zeros((np.size(startIdxArry)-1,blkSize),dtype=np.int32)
-    k=0
-    for i,j in zip(startIdxArry,endIdxArry):
-        if j < sigLen:
-            idxArray[k,:]=np.arange(i,j)
-            k = k+1
+    
+    # 1.1 method 1 获得idxArray ，比较方便思维理解
+   
+    # startIdxArry = np.arange(0,sigLen,stepSize)
+    # endIdxArry = startIdxArry + blkSize
+    
+    # # 获取idxArray 数组
+    # idxArray = np.zeros((np.size(startIdxArry),blkSize),dtype=np.int32)
+    # if endIdxArry[-1] >= sigLen:
+    #     idxArray = np.zeros((np.size(startIdxArry)-1,blkSize),dtype=np.int32)
+    # k=0
+    # for i,j in zip(startIdxArry,endIdxArry):
+    #     if j < sigLen:
+    #         idxArray[k,:]=np.arange(i,j)
+    #         k = k+1
+            
+            
+    # 1.2 method 2 获得idxArray
+    
+    # 生成 引索数组， 大小为 frameNumSize, cols num = blocksize 
+    frameNumSize = int( sigLen//stepSize )      # 获得一共有多少个 片段
+    startIdxArry = np.arange(0,stepSize*frameNumSize,stepSize)  # 生成开始引索序列
+    idxArray = np.tile(np.r_[0:blkSize:1],(frameNumSize,1)) + startIdxArry[:,np.newaxis] # 生成开始引索序列
     
     # 通过idxArray获得数组
     sigBlks = sigData[idxArray]
     lenSigBlks,_=sigBlks.shape
+    
+    
+    
+    
+    
     return lenSigBlks,sigBlks
 
 
